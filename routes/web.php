@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('boards.index'));
 });
+
+Route::resource('boards', 'BoardController', ['only' => ['index', 'show', 'store']]);

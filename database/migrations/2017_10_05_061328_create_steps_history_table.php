@@ -16,7 +16,7 @@ class CreateStepsHistoryTable extends Migration
         Schema::create('steps_history', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('board_id')->unsigned()->index();
-            $table->json('map');
+            $table->json('game_map');
             $table->timestamps();
         });
     }

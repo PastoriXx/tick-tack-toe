@@ -15,6 +15,22 @@ class Step extends Model
     protected $table = 'steps_history';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['game_map'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'game_map' => 'json',
+    ];
+
+    /**
      * Board relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|Board

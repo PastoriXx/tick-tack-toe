@@ -15,12 +15,20 @@ class Board extends Model
     protected $table = 'boards';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['player_type', 'winner_type'];
+
+
+    /**
      * Steps relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|Step
      */
-     public function steps()
-     {
+    public function steps()
+    {
          return $this->hasMany(Step::class);
-     }
+    }
 }
