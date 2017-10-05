@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('boards', 'BoardController', ['only' => ['index', 'show', 'store']]);
+Route::post('steps', 'StepController@store')->name('steps.store');

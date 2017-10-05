@@ -19,7 +19,7 @@ class Board extends Model
      *
      * @var array
      */
-    protected $fillable = ['player_type', 'winner_type'];
+    protected $fillable = ['player_token', 'player_type', 'winner_type'];
 
 
     /**
