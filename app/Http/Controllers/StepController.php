@@ -9,6 +9,7 @@ use App\Components\ComputerStrategy\RandomStrategy;
 use App\Components\GameMap;
 use Illuminate\Http\Request;
 use Config;
+use Session;
 
 class StepController extends Controller
 {
@@ -23,7 +24,8 @@ class StepController extends Controller
         $board = Board::allowed()->find($request->board_id);
 
         if (!$board) {
-            // Session::flash('');
+            Session::flash('status', "The party №{$request->board_id} finished");
+
             return [
                 'redirect' => route('boards.index', ['id' => $request->board_id])
             ];
@@ -31,7 +33,7 @@ class StepController extends Controller
 
         $data = $this->makePlayerStep($board, $request->cell);
 
-        if (!isset($data['errors']) || $board->winner_type > 0) {
+        if (!isset($data['errors']) && $board->winner_type == 0) {
             $data = $this->makeComputerStep($board);
         }
 
@@ -63,7 +65,8 @@ class StepController extends Controller
         
         if (GameMap::checkWinner($gameMap, $board->player_type)) {
             $data['messages'] = "The winner is player";
-
+            $data['winner'] = true;
+            
             $board->winner_type = $board->player_type;
             $board->save();
         }
@@ -71,7 +74,7 @@ class StepController extends Controller
         $board->steps()->create(["game_map" => $gameMap]);
 
         $data['game_map'] = $gameMap;
-        // dd($data);   
+
         return $data;
     }
 
@@ -97,6 +100,7 @@ class StepController extends Controller
 
         if (GameMap::checkWinner($data['game_map'], $board->computer_type)) {
             $data['messages'] = "The winner is computer";
+            $data['winner'] = true;
 
             $board->winner_type = $board->computer_type;
             $board->save();

@@ -18,6 +18,11 @@
             @endforeach
         </tbody>
     </table>
+    
+    <div class="well text-center back-button hidden">
+        <h3>Start again?</h3>
+        <a href="{{ route('boards.index') }}" class="btn btn-success">Go</a>
+    </div>
 
 </div>
     
