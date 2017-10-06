@@ -47,7 +47,7 @@ class Board extends Model
      */
     public function latestStep()
     {
-        return $this->steps()->latest()->first();
+        return $this->steps()->latest('id')->first();
     }
 
     /**
@@ -59,7 +59,8 @@ class Board extends Model
      */
     public function scopeAllowed($query)
     {
-        return $query->where($this->getTable() . '.player_token', Cookie::get('player_token'));
+        return $query->where($this->getTable() . '.player_token', Cookie::get('player_token'))
+            ->whereNull($this->getTable() . '.winner_type');
     }
 
     /**

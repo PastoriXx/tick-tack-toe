@@ -35,14 +35,4 @@ class Strategy
         }
         return $cells;
     }
-
-    /**
-     * Check blank map cells
-     *
-     * @return bool
-     */
-    public function checkBlankCells()
-    {
-        return (count($this->findBlankCells()) !== 0);
-    }
 }

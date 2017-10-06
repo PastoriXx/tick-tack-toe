@@ -7,13 +7,17 @@ use App\Components\GameMap;
 class RandomStrategy extends Strategy implements StrategyInterface
 {
     /**
-     * Find for a random free cell 
+     * Find for a random free cell
      *
      * @return array
      */
     public function findBestStep()
     {
         $blankCells = $this->findBlankCells();
+
+        if (count($blankCells) == 0) {
+            return ['errors' => 'Game over'];
+        }
 
         shuffle($blankCells);
         $cell = $blankCells[0];

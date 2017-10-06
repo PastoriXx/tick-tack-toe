@@ -20,7 +20,11 @@ class StepController extends Controller
      */
     public function store(StepRequest $request)
     {
-        $board = Board::allowed()->findOrFail($request->board_id);
+        $board = Board::allowed()->find($request->board_id);
+
+        if (!$board) {
+            return redirect()->route('boards.index', ['id' => $request->board_id])->with('status', 'Game over');
+        }
 
         $data = $this->makePlayerStep($board, $request->cell);
 
@@ -37,7 +41,7 @@ class StepController extends Controller
      * @param App\Models\Board $board
      * @param array $cell
      *
-     * @return bool
+     * @return array
      */
     private function makePlayerStep(Board $board, array $cell)
     {
@@ -53,15 +57,25 @@ class StepController extends Controller
         
         if (GameMap::checkWinner($gameMap, $board->player_type)) {
             $data['success'] = "The winner is player";
+
+            $board->winner_type = $board->player_type;
+            $board->save();
         }
 
         $board->steps()->create(["game_map" => $gameMap]);
 
-        $data['game_map'] = $gameMap;  
+        $data['game_map'] = $gameMap;
         
         return $data;
     }
 
+    /**
+     * Make computer step
+     *
+     * @param App\Models\Board $board
+     *
+     * @return array
+     */
     private function makeComputerStep(Board $board)
     {
         $data = [];
@@ -71,11 +85,18 @@ class StepController extends Controller
         $strategy = new RandomStrategy($gameMap, $board->computer_type);
         $data = $strategy->findBestStep();
 
-        if (GameMap::checkWinner($data['game_map'], $board->computer_type)) {
-            $data['success'] = "The winner is computer";
+        if (isset($data['errors'])) {
+            return $data;
         }
 
-        $board->steps()->create(["game_map" => $data['game_map']]);     
+        if (GameMap::checkWinner($data['game_map'], $board->computer_type)) {
+            $data['success'] = "The winner is computer";
+
+            $board->winner_type = $board->computer_type;
+            $board->save();
+        }
+
+        $board->steps()->create(["game_map" => $data['game_map']]);
 
         return $data;
     }
