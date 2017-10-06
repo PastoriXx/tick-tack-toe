@@ -8,7 +8,7 @@
             @foreach($map as $row_id => $rows)
                 <tr>
                     @foreach($rows as $item_id => $item)
-                        <td class="game_map-cell" data-key="[{{ $row_id }}, {{ $item_id }}]">{{ $item }}</td>
+                        <td class="game_map-cell" data-x="{{ $row_id }}" data-y="{{ $item_id }}">{{ $item }}</td>
                     @endforeach
                 </tr>
             @endforeach
