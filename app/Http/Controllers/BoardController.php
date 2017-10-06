@@ -18,7 +18,7 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::orderBy('created_at', 'desc')->paginate();
+        $boards = Board::orderBy('created_at', 'desc')->paginate(5);
  
         return view('boards.index', compact('boards'));
     }
@@ -49,6 +49,6 @@ class BoardController extends Controller
         $model = Board::create($request->all());
         $model->steps()->create(["game_map" => GameMap::createInitialMap()]);
  
-        return redirect()->route('boards.show', ['id' => $model->id]);//->with('status', trans('post.created'));
+        return redirect()->route('boards.show', ['id' => $model->id]);//->with('status', trans('New game board created'));
     }
 }

@@ -16,9 +16,6 @@
 </head>
 <body>
     <div id="app"> 
-
-        @include('layouts._alerts')
-
         <div class="container">
             <div class="col-md-8 col-md-offset-2">
 
@@ -26,6 +23,9 @@
 
             </div>
         </div>
+
+        @include('layouts._alerts')
+
     </div>
 
     <!-- Scripts -->

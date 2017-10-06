@@ -23,15 +23,18 @@ class StepController extends Controller
         $board = Board::allowed()->find($request->board_id);
 
         if (!$board) {
-            return redirect()->route('boards.index', ['id' => $request->board_id])->with('status', 'Game over');
+            // Session::flash('');
+            return [
+                'redirect' => route('boards.index', ['id' => $request->board_id])
+            ];
         }
 
         $data = $this->makePlayerStep($board, $request->cell);
 
-        if (!isset($data['errors']) || isset($data['success'])) {
+        if (!isset($data['errors']) || $board->winner_type > 0) {
             $data = $this->makeComputerStep($board);
         }
-               
+
         return response()->json($data);
     }
 
@@ -50,13 +53,16 @@ class StepController extends Controller
         $gameMap = $board->latestStep()->game_map;
 
         if ($gameMap[$cell['x']][$cell['y']] != Config::get('enums.field_types.empty')) {
-            return ['errors' => 'You can not make a move here!'];
+            return [
+                'messages' => 'You can not make a move here!',
+                'errors' => true,
+            ];
         }
 
         $gameMap[$cell['x']][$cell['y']] = $board->player_type;
         
         if (GameMap::checkWinner($gameMap, $board->player_type)) {
-            $data['success'] = "The winner is player";
+            $data['messages'] = "The winner is player";
 
             $board->winner_type = $board->player_type;
             $board->save();
@@ -65,7 +71,7 @@ class StepController extends Controller
         $board->steps()->create(["game_map" => $gameMap]);
 
         $data['game_map'] = $gameMap;
-        
+        // dd($data);   
         return $data;
     }
 
@@ -90,7 +96,7 @@ class StepController extends Controller
         }
 
         if (GameMap::checkWinner($data['game_map'], $board->computer_type)) {
-            $data['success'] = "The winner is computer";
+            $data['messages'] = "The winner is computer";
 
             $board->winner_type = $board->computer_type;
             $board->save();

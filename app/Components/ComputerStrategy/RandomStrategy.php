@@ -16,7 +16,10 @@ class RandomStrategy extends Strategy implements StrategyInterface
         $blankCells = $this->findBlankCells();
 
         if (count($blankCells) == 0) {
-            return ['errors' => 'Game over'];
+            return [
+                'messages' => 'Game over',
+                'errors' => true
+            ];
         }
 
         shuffle($blankCells);
