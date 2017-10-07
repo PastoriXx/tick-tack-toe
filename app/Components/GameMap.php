@@ -4,7 +4,6 @@ namespace App\Components;
 
 use App\Models\Board;
 use Config;
-use Cookie;
 
 class GameMap
 {
@@ -19,13 +18,13 @@ class GameMap
     {
         $blankValue = Config::get('enums.field_types.empty');
         $gameMap = [];
- 
+
         for ($i = 0; $i < $size; $i++) {
             for ($j = 0; $j < $size; $j++) {
                 $gameMap[$i][$j] = $blankValue;
             }
         }
-  
+
         return $gameMap;
     }
 
@@ -51,7 +50,7 @@ class GameMap
             [[0, 2], [1, 2], [2, 2]],
             // diagonal combinations
             [[0, 0], [1, 1], [2, 2]],
-            [[2, 0], [1, 1], [0, 2]],           
+            [[2, 0], [1, 1], [0, 2]],
         ];
 
         foreach ($combinations as $key) {

@@ -6,7 +6,7 @@
  */
 
 require('./bootstrap');
-var ww = require('./actions/gameMap');
+require('./actions/gameMap');
 
 // window.Vue = require('vue');
 

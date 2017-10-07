@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Board;
-use App\Models\Step;
-use App\Http\Requests\StepRequest;
 use App\Components\ComputerStrategy\RandomStrategy;
 use App\Components\GameMap;
-use Illuminate\Http\Request;
+use App\Http\Requests\StepRequest;
+use App\Models\Board;
+use App\Models\Step;
 use Config;
+use Illuminate\Http\Request;
 use Session;
 
 class StepController extends Controller
@@ -27,7 +27,7 @@ class StepController extends Controller
             Session::flash('status', "The party №{$request->board_id} finished");
 
             return [
-                'redirect' => route('boards.index', ['id' => $request->board_id])
+                'redirect' => route('boards.index', ['id' => $request->board_id]),
             ];
         }
 
@@ -51,7 +51,7 @@ class StepController extends Controller
     private function makePlayerStep(Board $board, array $cell)
     {
         $data = [];
-        
+
         $gameMap = $board->latestStep()->game_map;
 
         if ($gameMap[$cell['x']][$cell['y']] != Config::get('enums.field_types.empty')) {
@@ -62,11 +62,11 @@ class StepController extends Controller
         }
 
         $gameMap[$cell['x']][$cell['y']] = $board->player_type;
-        
+
         if (GameMap::checkWinner($gameMap, $board->player_type)) {
             $data['messages'] = "The winner is player";
             $data['winner'] = true;
-            
+
             $board->winner_type = $board->player_type;
             $board->save();
         }

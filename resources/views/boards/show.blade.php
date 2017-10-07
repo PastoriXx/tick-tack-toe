@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex-center position-ref">
-    
+
     <table class="table table-bordered game_map" data-board-id="{{ $model->id }}">
         <tbody>
             @foreach($map as $row_id => $rows)
@@ -18,12 +18,12 @@
             @endforeach
         </tbody>
     </table>
-    
+
     <div class="well text-center back-button hidden">
         <h3>Start again?</h3>
         <a href="{{ route('boards.index') }}" class="btn btn-success">Go</a>
     </div>
 
 </div>
-    
+
 @endsection

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Step;
-use Cookie;
 use Config;
+use Cookie;
+use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model
 {
@@ -37,9 +37,9 @@ class Board extends Model
      */
     public function steps()
     {
-         return $this->hasMany(Step::class);
+        return $this->hasMany(Step::class);
     }
-    
+
     /**
      * Get latest step
      *
@@ -67,7 +67,7 @@ class Board extends Model
      * Get computer type
      *
      * @return string
-     */   
+     */
     public function getComputerTypeAttribute()
     {
         $types = Config::get('enums.field_types');

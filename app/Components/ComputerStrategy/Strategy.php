@@ -16,7 +16,6 @@ class Strategy
         $this->computerType = $computerType;
     }
 
-
     /**
      * Find a blank cells
      *
@@ -26,7 +25,7 @@ class Strategy
     {
         $blankValue = Config::get('enums.field_types.empty');
         $cells = [];
-        
+
         foreach ($this->gameMap as $i => $row) {
             foreach ($row as $j => $value) {
                 if ($value == $blankValue) {

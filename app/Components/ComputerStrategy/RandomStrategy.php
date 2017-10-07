@@ -16,7 +16,7 @@ class RandomStrategy extends Strategy implements StrategyInterface
         if (count($blankCells) == 0) {
             return [
                 'messages' => 'Game over',
-                'errors' => true
+                'errors' => true,
             ];
         }
 

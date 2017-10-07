@@ -15,7 +15,7 @@
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app"> 
+    <div id="app">
 
         @include('layouts._alerts')
 

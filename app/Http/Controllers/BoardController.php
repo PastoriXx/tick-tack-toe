@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Board;
-use App\Models\Step;
-use App\Http\Requests\BoardRequest;
-use App\Components\GameMap;
-use Cookie;
-use Config;
 use App\Components\ComputerStrategy\RandomStrategy;
+use App\Components\GameMap;
+use App\Http\Requests\BoardRequest;
+use App\Models\Board;
+use Config;
+use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {
@@ -21,10 +19,10 @@ class BoardController extends Controller
     public function index()
     {
         $boards = Board::orderBy('created_at', 'desc')->paginate(5);
- 
+
         return view('boards.index', compact('boards'));
     }
- 
+
     /**
      * Display the specified resource.
      *
@@ -39,7 +37,7 @@ class BoardController extends Controller
 
         return view('boards.show', compact('model', 'map'));
     }
- 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -49,17 +47,16 @@ class BoardController extends Controller
     public function store(BoardRequest $request)
     {
         $model = Board::create($request->all());
-        
+
         if ($model->player_type == Config::get('enums.field_types.O')) {
             $strategy = new RandomStrategy($model->computer_type);
             $gameMap = $strategy->findBestStep()['game_map'];
         } else {
-            $gameMap = GameMap::createInitialMap();            
+            $gameMap = GameMap::createInitialMap();
         }
-        
+
         $model->steps()->create(["game_map" => $gameMap]);
 
-        
-        return redirect()->route('boards.show', ['id' => $model->id]);//->with('status', trans('New game board created'));
+        return redirect()->route('boards.show', ['id' => $model->id]); //->with('status', trans('New game board created'));
     }
 }
