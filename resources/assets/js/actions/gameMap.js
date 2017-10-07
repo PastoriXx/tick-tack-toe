@@ -22,6 +22,15 @@ $('.game_map-cell').on('click', function() {
         },
         success: function(data) {
 
+            $.each(data['game_map'], function(x, row) {
+                $.each(row, function(y, value) {
+                    if (value > 0) {
+                        value = value == 1 ? 'X' : 'O';
+                        board.find('[data-x="' + x + '"][data-y="' + y + '"]').html(value); 
+                    }
+                });
+            });
+
             if (data['redirect']) {
                 window.location.replace(data['redirect']);
             }
@@ -34,15 +43,6 @@ $('.game_map-cell').on('click', function() {
                 $('.js-alert-container').addClass('hidden');
             }
             
-            $.each(data['game_map'], function(x, row) {
-                $.each(row, function(y, value) {
-                    if (value > 0) {
-                        value = value == 1 ? 'X' : 'O';
-                        board.find('[data-x="' + x + '"][data-y="' + y + '"]').html(value); 
-                    }
-                });
-            });
-            
             if (data['winner']) {
                 setTimeout(function() {
                     board.addClass('hidden');
@@ -53,7 +53,7 @@ $('.game_map-cell').on('click', function() {
             console.log(data);            
         },
         error: function(data) {
-            console.log(data['error']);
+            console.log(data);
         }
     });
 });

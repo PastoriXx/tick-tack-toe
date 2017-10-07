@@ -42,7 +42,7 @@ class GameMap
         $combinations = [
             // horizontal combionations
             [[0, 0], [0, 1], [0, 2]],
-            [[1, 0], [1, 1], [2, 2]],
+            [[1, 0], [1, 1], [1, 2]],
             [[2, 0], [2, 1], [2, 2]],
             // vertical combinations
             [[0, 0], [1, 0], [2, 0]],
@@ -52,7 +52,7 @@ class GameMap
             [[0, 0], [1, 1], [2, 2]],
             [[2, 0], [1, 1], [0, 2]],
         ];
-
+        
         foreach ($combinations as $key) {
             if ($gameMap[$key[0][0]][$key[0][1]] == $playerType &&
                 $gameMap[$key[1][0]][$key[1][1]] == $playerType &&
@@ -60,7 +60,9 @@ class GameMap
             ) {
                 return true;
             }
+            
         }
+
         return false;
     }
 }

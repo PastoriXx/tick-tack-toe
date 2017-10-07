@@ -33,10 +33,6 @@ class StepController extends Controller
 
         $data = $this->makePlayerStep($board, $request->cell);
 
-        if (!isset($data['errors']) && $board->winner_type == 0) {
-            $data = $this->makeComputerStep($board);
-        }
-
         return response()->json($data);
     }
 
@@ -63,9 +59,8 @@ class StepController extends Controller
 
         $gameMap[$cell['x']][$cell['y']] = $board->player_type;
 
-        if (GameMap::checkWinner($gameMap, $board->player_type)) {
+        if ($data['winner'] = GameMap::checkWinner($gameMap, $board->player_type)) {
             $data['messages'] = "The winner is player";
-            $data['winner'] = true;
 
             $board->winner_type = $board->player_type;
             $board->save();
@@ -74,6 +69,10 @@ class StepController extends Controller
         $board->steps()->create(["game_map" => $gameMap]);
 
         $data['game_map'] = $gameMap;
+
+        if (!$data['winner']) {
+            $data = $this->makeComputerStep($board);
+        }
 
         return $data;
     }
@@ -94,13 +93,12 @@ class StepController extends Controller
         $strategy = new RandomStrategy($board->computer_type, $gameMap);
         $data = $strategy->findBestStep();
 
-        if (isset($data['errors'])) {
+        if (isset($data['errors']) || $data['winner']) {
             return $data;
         }
 
-        if (GameMap::checkWinner($data['game_map'], $board->computer_type)) {
+        if ($data['winner'] = GameMap::checkWinner($data['game_map'], $board->computer_type)) {
             $data['messages'] = "The winner is computer";
-            $data['winner'] = true;
 
             $board->winner_type = $board->computer_type;
             $board->save();
