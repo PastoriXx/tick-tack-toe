@@ -8,6 +8,8 @@ use App\Models\Step;
 use App\Http\Requests\BoardRequest;
 use App\Components\GameMap;
 use Cookie;
+use Config;
+use App\Components\ComputerStrategy\RandomStrategy;
 
 class BoardController extends Controller
 {
@@ -47,8 +49,17 @@ class BoardController extends Controller
     public function store(BoardRequest $request)
     {
         $model = Board::create($request->all());
-        $model->steps()->create(["game_map" => GameMap::createInitialMap()]);
- 
+        
+        if ($model->player_type == Config::get('enums.field_types.O')) {
+            $strategy = new RandomStrategy($model->computer_type);
+            $gameMap = $strategy->findBestStep()['game_map'];
+        } else {
+            $gameMap = GameMap::createInitialMap();            
+        }
+        
+        $model->steps()->create(["game_map" => $gameMap]);
+
+        
         return redirect()->route('boards.show', ['id' => $model->id]);//->with('status', trans('New game board created'));
     }
 }

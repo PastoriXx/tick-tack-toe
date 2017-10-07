@@ -2,6 +2,7 @@
 
 namespace App\Components\ComputerStrategy;
 
+use App\Components\GameMap;
 use Config;
 
 class Strategy
@@ -9,9 +10,9 @@ class Strategy
     public $gameMap;
     public $computerType;
 
-    public function __construct(array $gameMap, int $computerType)
+    public function __construct(int $computerType, array $gameMap = null)
     {
-        $this->gameMap = $gameMap;
+        $this->gameMap = $gameMap ?: GameMap::createInitialMap();
         $this->computerType = $computerType;
     }
 

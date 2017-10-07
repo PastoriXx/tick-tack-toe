@@ -31729,18 +31729,20 @@ $('.game_map-cell').on('click', function () {
                 $('.js-alert-container').addClass('hidden');
             }
 
-            if (data['winner']) {
-                board.addClass('hidden');
-                $('.back-button').removeClass('hidden');
-            } else {
-                $.each(data['game_map'], function (x, row) {
-                    $.each(row, function (y, value) {
-                        if (value > 0) {
-                            value = value == 1 ? 'X' : 'O';
-                            board.find('[data-x="' + x + '"][data-y="' + y + '"]').html(value);
-                        }
-                    });
+            $.each(data['game_map'], function (x, row) {
+                $.each(row, function (y, value) {
+                    if (value > 0) {
+                        value = value == 1 ? 'X' : 'O';
+                        board.find('[data-x="' + x + '"][data-y="' + y + '"]').html(value);
+                    }
                 });
+            });
+
+            if (data['winner']) {
+                setTimeout(function () {
+                    board.addClass('hidden');
+                    $('.back-button').removeClass('hidden');
+                }, 1000);
             }
 
             console.log(data);

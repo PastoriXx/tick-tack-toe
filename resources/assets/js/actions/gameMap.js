@@ -30,24 +30,24 @@ $('.game_map-cell').on('click', function() {
                 let alertContainer = $('.js-alert-container');
                 alertContainer.find('p').html(data['messages']);
                 alertContainer.removeClass('hidden');
-
             } else {
                 $('.js-alert-container').addClass('hidden');
             }
             
+            $.each(data['game_map'], function(x, row) {
+                $.each(row, function(y, value) {
+                    if (value > 0) {
+                        value = value == 1 ? 'X' : 'O';
+                        board.find('[data-x="' + x + '"][data-y="' + y + '"]').html(value); 
+                    }
+                });
+            });
             
             if (data['winner']) {
-                board.addClass('hidden');
-                $('.back-button').removeClass('hidden');
-            } else {
-                $.each(data['game_map'], function(x, row) {
-                    $.each(row, function(y, value) {
-                        if (value > 0) {
-                            value = value == 1 ? 'X' : 'O';
-                            board.find('[data-x="' + x + '"][data-y="' + y + '"]').html(value); 
-                        }
-                    });
-                });
+                setTimeout(function() {
+                    board.addClass('hidden');
+                    $('.back-button').removeClass('hidden');
+                }, 1000);
             }
 
             console.log(data);            

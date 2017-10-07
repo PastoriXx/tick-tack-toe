@@ -2,8 +2,6 @@
 
 namespace App\Components\ComputerStrategy;
 
-use App\Components\GameMap;
-
 class RandomStrategy extends Strategy implements StrategyInterface
 {
     /**

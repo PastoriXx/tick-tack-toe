@@ -56,6 +56,8 @@
     @endforeach  
 </div>
 
-{{ $boards->links() }}
+<div class="text-center">
+    {{ $boards->links() }}
+</div>
     
 @endsection

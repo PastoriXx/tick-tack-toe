@@ -91,7 +91,7 @@ class StepController extends Controller
 
         $gameMap = $board->latestStep()->game_map;
 
-        $strategy = new RandomStrategy($gameMap, $board->computer_type);
+        $strategy = new RandomStrategy($board->computer_type, $gameMap);
         $data = $strategy->findBestStep();
 
         if (isset($data['errors'])) {
